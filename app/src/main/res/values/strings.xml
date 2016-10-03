@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Notes</string>
+    <string name="main_activity_name">Создание заметки</string>
+    <string name="text_activity_name"></string>
+</resources>
