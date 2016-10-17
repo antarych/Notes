@@ -78,11 +78,9 @@ public class ListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(ListActivity.this, TextActivity.class);
-                //TextView textView = (TextView) view;
-                //intent.putExtra("saved_text", textView.getText().toString());
-                //intent.putExtra("checkbox_importance", isImportant.isChecked());
-                //myIntent.putExtra("saved_name", textView.getText().toString());
+                Intent myIntent = new Intent(getApplicationContext(), TextActivity.class);
+                myIntent.putExtra("saved_text", noteList.get(position).firstLine);
+                myIntent.putExtra("saved_name", noteList.get(position).noteName);
                 startActivity(myIntent);
             }
         });
@@ -105,5 +103,5 @@ public class ListActivity extends AppCompatActivity {
         super.onStop();
         Log.d(TEST_TAG, "onStop()");
     }
-
 }
+

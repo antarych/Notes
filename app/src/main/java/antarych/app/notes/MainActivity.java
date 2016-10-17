@@ -68,6 +68,4 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         Log.d(TEST_TAG, "onStop()");
     }
-
-
 }

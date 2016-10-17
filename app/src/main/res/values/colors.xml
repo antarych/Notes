@@ -3,6 +3,6 @@
     <color name="colorPrimary">#4fb53f</color>
     <color name="colorPrimaryDark">#338b26</color>
     <color name="colorAccent">#a3be0b</color>
-    <color name="colorGrey">#656565</color>
+    <color name="colorGrey">#aaa7a7</color>
     <color name="colorWhite">#ffffff</color>
 </resources>

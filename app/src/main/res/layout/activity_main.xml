@@ -16,7 +16,7 @@
         android:hint="Сохранить"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
-    
+
     <EditText
         android:id="@+id/note_name"
         android:layout_width="match_parent"

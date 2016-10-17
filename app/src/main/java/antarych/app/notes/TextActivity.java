@@ -34,7 +34,7 @@ public class TextActivity extends AppCompatActivity {
         value = getIntent().getBooleanExtra("checkbox_importance", false);
         noteName = getIntent().getStringExtra("saved_name");
         setTitle(noteName);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
