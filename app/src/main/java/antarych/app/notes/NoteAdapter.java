@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,44 +19,75 @@ import java.util.List;
 public class NoteAdapter extends ArrayAdapter {
     Activity activity;
     int resource;
-    List list;
+    ArrayList<NotesModel> list;
 
     public NoteAdapter(Context context, int resource, List objects) {
         super(context, resource, objects);
         activity = (Activity) context;
         this.resource = resource;
-        list = objects;
+        this.list = (ArrayList<NotesModel>) objects;
     }
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        ViewHolder viewHolder;
-        Note selectedNote;
-        selectedNote = (Note) list.get(position);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if (convertView == null){
-            LayoutInflater inflater = activity.getLayoutInflater();
-            convertView = inflater.inflate(resource, null);
+        if (list.get(position) instanceof Note) {
+            Note selectedNote;
+            selectedNote = (Note) list.get(position);
+            NoteViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item_note, null);
+                viewHolder = new NoteViewHolder(
+                        (TextView) convertView.findViewById(R.id.note_name),
+                        (TextView) convertView.findViewById(R.id.first_line)
+                );
 
-            viewHolder = new ViewHolder();
+                convertView.setTag(viewHolder);
 
-            viewHolder.nameTextView = (TextView) convertView.findViewById(R.id.note_name);
-            viewHolder.noteTextView = (TextView) convertView.findViewById(R.id.first_line);
+            } else {
+                viewHolder = (NoteViewHolder) convertView.getTag();
+            }
+
+            Note note = (Note) list.get(position);
+            viewHolder.name.setText(selectedNote.noteName);
+            viewHolder.text.setText(selectedNote.text);
 
             convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+
+        } else if (list.get(position) instanceof Separator) {
+            SeparatorViewHolder viewHolder;
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.item_separator, null);
+                viewHolder = new SeparatorViewHolder(
+                        (TextView) convertView.findViewById(R.id.tv_separator)
+                );
+            } else {
+                viewHolder = (SeparatorViewHolder) convertView.getTag();
+            }
+            Separator separator = (Separator) list.get(position);
+            viewHolder.text.setText(separator.text);
         }
-
-        viewHolder.nameTextView.setText(selectedNote.noteName);
-        viewHolder.noteTextView.setText(selectedNote.firstLine);
-
-        return  convertView;
+        return convertView;
     }
 
-    class  ViewHolder{
-        TextView nameTextView;
-        TextView noteTextView;
+    class NoteViewHolder {
+        TextView name;
+        TextView text;
+
+        public NoteViewHolder(TextView name, TextView text) {
+            this.name = name;
+            this.text = text;
+        }
+    }
+
+    class SeparatorViewHolder {
+        TextView text;
+
+        public SeparatorViewHolder(TextView text) {
+            this.text = text;
+        }
     }
 }
+

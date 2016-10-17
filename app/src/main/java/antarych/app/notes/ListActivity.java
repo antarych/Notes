@@ -17,11 +17,11 @@ import java.util.ArrayList;
 
 public class ListActivity extends AppCompatActivity {
 
-    final  static String TEST_TAG = "TEST_TAG";
+    final static String TEST_TAG = "TEST_TAG";
 
     ListView listView;
-    ArrayAdapter adapter;
-    ArrayList<Note> noteList;
+    NoteAdapter adapter;
+    ArrayList<NotesModel> noteList;
     Button addButton;
 
 
@@ -41,7 +41,7 @@ public class ListActivity extends AppCompatActivity {
         noteList.add(new Note("Note3", "text text text text text"));
         noteList.add(new Note("Note4", "text text text text text"));
         noteList.add(new Note("Note5", "text text text text text"));
-        noteList.add(new Note("Note6", "text text text text text"));
+        noteList.add(new Separator("important"));
         noteList.add(new Note("Note7", "text text text text text"));
         noteList.add(new Note("Note2", "text text text text text"));
         noteList.add(new Note("Note3", "text text text text text"));
@@ -49,9 +49,8 @@ public class ListActivity extends AppCompatActivity {
         noteList.add(new Note("Note5", "text text text text text"));
         noteList.add(new Note("Note6", "text text text text text"));
         noteList.add(new Note("Note7", "text text text text text"));
-
-        adapter = new NoteAdapter(this, R.layout.item_note, noteList);
-        listView.setAdapter(adapter);
+        
+        initAdapter();
     }
 
     @Override
@@ -60,6 +59,11 @@ public class ListActivity extends AppCompatActivity {
         Log.d(TEST_TAG, "onResume()");
         bindViews();
         addNewNote();
+    }
+
+    private void initAdapter() {
+        adapter = new NoteAdapter(this, 0, noteList);
+        listView.setAdapter(adapter);
     }
 
     private void addNewNote() {
@@ -78,10 +82,12 @@ public class ListActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(getApplicationContext(), TextActivity.class);
-                myIntent.putExtra("saved_text", noteList.get(position).firstLine);
-                myIntent.putExtra("saved_name", noteList.get(position).noteName);
-                startActivity(myIntent);
+                if (noteList.get(position) instanceof Note) {
+                    Intent myIntent = new Intent(getApplicationContext(), TextActivity.class);
+                    myIntent.putExtra("saved_text", noteList.get(position).text);
+                    myIntent.putExtra("saved_name", ((Note)noteList.get(position)).noteName);
+                    startActivity(myIntent);
+                }
             }
         });
     }
